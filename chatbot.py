@@ -24,6 +24,14 @@ def clean_text(text):
     return text
 
 
+def model_inputs():
+    inputs = tf.placeholder(dtype=tf.int32, shape=[None, None], name='input')
+    targets = tf.placeholder(dtype=tf.int32, shape=[None, None], name='target')
+    lr = tf.placeholder(dtype=tf.float32, name='learning_rate')
+    keep_prob = tf.placeholder(dtype=tf.float32, name='keep_prob')
+    return inputs, targets, lr, keep_prob
+
+
 # Importing the dataset
 lines = open('dataset/cornell movie-dialogs corpus/movie_lines.txt', encoding='utf-8',
              errors='ignore').read().split('\n')
@@ -136,5 +144,3 @@ for length in range(1, 25 + 1):
         if len(i[1]) == length:
             sorted_clean_questions.append(questions_into_int[i[0]])
             sorted_clean_answers.append(answers_into_int[i[0]])
-
-# Creating placeholders for the inputs and targets
