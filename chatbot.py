@@ -90,8 +90,7 @@ def model_inputs():
 def preprocess_targets(targets, word2int, batch_size):
     left_side = tf.fill([batch_size, 1], word2int['<SOS>'])
     right_side = tf.strided_slice(targets, [0, 0], [batch_size, -1], [1, 1])
-    preprocessed_targets = tf.concat([left_side, right_side], 1)
-    return preprocessed_targets
+    return tf.concat([left_side, right_side], 1)
 
 
 # Importing the dataset
@@ -121,16 +120,8 @@ for conversation in conversations_ids:
         questions.append(id2line[conversation[i]])
         answers.append(id2line[conversation[i + 1]])
 
-# Cleaning the questions
-clean_questions = []
-for question in questions:
-    clean_questions.append(clean_text(question))
-
-# Cleaning the answers
-clean_answers = []
-for answer in answers:
-    clean_answers.append(clean_text(answer))
-
+clean_questions = [clean_text(question) for question in questions]
+clean_answers = [clean_text(answer) for answer in answers]
 # Creating a dictionary that maps each word to its number of occurrences
 word2count = {}
 for question in clean_questions:
